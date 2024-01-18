@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.expensetracker.model.Expense;
+import com.example.expensetracker.model.User;
 import com.example.expensetracker.repository.ExpenseRepository;
 import com.example.expensetracker.service.ExpenseService;
 
@@ -21,8 +22,19 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
 
     @Override
-    public void insertnewExpense(Expense newExpense){
+    public String insertnewExpense(Expense newExpense){
         theExpenseRepository.save(newExpense);
+        return checkExpenseLimit();
+    }
+
+    @Override
+    public String checkExpenseLimit(){
+
+        BigDecimal budget=BigDecimal.valueOf(5000);
+        if(getTotalExpense().compareTo(budget)>0){
+            return "You have reached your budget";
+        }
+        return null;
     }
 
     @Override
@@ -34,4 +46,19 @@ public class ExpenseServiceImpl implements ExpenseService{
         }
         return totalExpense;
     }
+
+    @Override
+    public List<Expense> getAllExpensesByCategory(User userId) {
+        return theExpenseRepository.findByUserIdOrderByCategoryAsc(userId);
+    }
+
+    @Override
+    public List<Expense> getAllExpensesByDateAndTime(User userId){
+        return theExpenseRepository.findByUserIdOrderByDateAndTimeDesc(userId);
+    }
+
+    @Override
+    public List<Expense> getAllExpensesByGivenCategory(User userId,String category) {
+        return theExpenseRepository.findByUserIdAndCategoryOrderByDateAndTimeDesc(userId,category);
+    }    
 }

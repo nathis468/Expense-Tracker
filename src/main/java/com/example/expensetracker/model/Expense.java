@@ -2,7 +2,6 @@ package com.example.expensetracker.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,11 +20,11 @@ import lombok.Data;
 
     @Field("user_id")
     @DocumentReference(collection = "users")
-    private User    userId;
+    private User userId;
 
     @Field("data_time")
     private LocalDateTime dateAndTime;
-    private String description;
+    private String category;
     private BigDecimal amount;
     
     public Expense() {
