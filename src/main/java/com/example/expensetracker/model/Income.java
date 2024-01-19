@@ -27,6 +27,12 @@ public class Income {
     private String source;
     private BigDecimal amount;
 
+    @Field("previous_balance")
+    private BigDecimal previousBalance;
+
+    @Field("current_balance")
+    private BigDecimal currentBalance;
+
     public Income() {
         this.dateAndTime = LocalDateTime.now();
     }

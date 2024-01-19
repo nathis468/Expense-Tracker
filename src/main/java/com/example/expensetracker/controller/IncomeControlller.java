@@ -49,22 +49,42 @@ public class IncomeControlller {
         return theIncomeService.getAllAnualIncome(userId,year);
     }
 
+    // yearly income from all source - total
+    @GetMapping("/listannualincometotal/{userId}/{year}")
+    public String getMethodName(@PathVariable User userId,@PathVariable int year) {
+        BigDecimal res=theIncomeService.getAllAnualIncomeTotal(userId, year);
+        return "Total Income : "+res;
+    }
+
     // all income from particular source
     @GetMapping("/listuserssourceincome/{userId}/{source}")
     public List<Income> getMethodName(@PathVariable User userId, @PathVariable String source) {
         return theIncomeService.getParticularUsersParticularSourceAnnualIncome(userId,source);
     }
     
-    // Annual Income statement from particular source
-    @GetMapping("/listannualstatement/{source}/{year}")
-    public List<Income> getAnnualIncomeStatementController(@PathVariable String source,@PathVariable int year) {
-        return theIncomeService.getParticularSourceAnnualIncome(source,year);
+    // Annual Income statement from particular source   
+    @GetMapping("/listannualstatement/{userId}/{source}/{year}")
+    public List<Income> getAnnualIncomeStatementController(@PathVariable User userId,@PathVariable String source,@PathVariable int year) {
+        return theIncomeService.getParticularSourceAnnualIncome(userId,source,year);
     }
 
-    // Montly  Income statement from particular source
-    @GetMapping("/listmonthlystatement/{source}/{year}/{month}")
-    public List<Income> getMonthlyIncomeController(@PathVariable String source,@PathVariable int year,@PathVariable int month) {
-        return theIncomeService.getParticularSourceMontlyIncome(source, year, month);
+    // Annual Income statement from particular source  - total
+    @GetMapping("/listannualstatementtotal/{userId}/{source}/{year}")
+    public String getAnnualIncomeStatementTotalController(@PathVariable User userId,@PathVariable String source,@PathVariable int year) {
+        BigDecimal totalExpense = theIncomeService.getParticularSourceAnnualIncomeTotal(userId,source,year);
+        return "Total Annual Income from "+source+" : "+totalExpense;
     }
-    
+
+    // Montly Income statement from particular source
+    @GetMapping("/listmonthlystatement/{userId}/{source}/{year}/{month}")
+    public List<Income> getMonthlyIncomeController(@PathVariable User userId,@PathVariable String source,@PathVariable int year,@PathVariable int month) {
+        return theIncomeService.getParticularSourceMontlyIncome(userId,source, year, month);
+    }    
+
+    // Montly Income statement from particular source
+    @GetMapping("/listmonthlystatementtotal/{userId}/{source}/{year}/{month}")
+    public String getMonthlyIncomeTotalController(@PathVariable User userId,@PathVariable String source,@PathVariable int year,@PathVariable int month) {
+        BigDecimal totalExpense = theIncomeService.getParticularSourceMontlyIncomeTotal(userId,source, year, month);
+        return "Total Montly("+month+") Income from "+source+" : "+totalExpense;
+    } 
 }

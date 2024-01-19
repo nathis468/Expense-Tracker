@@ -26,6 +26,12 @@ import lombok.Data;
     private LocalDateTime dateAndTime;
     private String category;
     private BigDecimal amount;
+
+    @Field("previous_balance")
+    private BigDecimal previousBalance;
+
+    @Field("current_balance")
+    private BigDecimal currentBalance;
     
     public Expense() {
         this.dateAndTime = LocalDateTime.now();

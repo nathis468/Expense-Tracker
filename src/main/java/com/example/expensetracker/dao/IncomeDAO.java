@@ -26,6 +26,14 @@ public class IncomeDAO {
         return template.find(query, Income.class);
     }
 
+    // yearly income from all source - total
+    public List<Income> findAnnualIncomeByUserIdTotal(User userId,LocalDateTime startDate,LocalDateTime endDate){
+        Criteria criteria=Criteria.where("userId").is(userId).andOperator(Criteria.where("date_time").gte(startDate).andOperator(Criteria.where("date_time").lte(endDate)));
+        Query query=new Query(criteria);
+        return template.find(query, Income.class);
+    }
+
+
     // all income from particular source
     public List<Income> findIncomeFromParticularSource(User userId,String source){
         Criteria criteria=Criteria.where("userId").is(userId).andOperator(Criteria.where("source").is(source));
@@ -35,12 +43,9 @@ public class IncomeDAO {
 
     // Annual Income statement from particular source
     // Montly  Income statement from particular source
-    public List<Income> findBySourceByDateAndTime(String source,LocalDateTime startDate,LocalDateTime endDate){
-        Criteria criteria=Criteria.where("source").is(source).andOperator(Criteria.where("date_time").gte(startDate).andOperator(Criteria.where("date_time").lte(endDate)));
+    public List<Income> findBySourceByDateAndTime(User userId,String source,LocalDateTime startDate,LocalDateTime endDate){
+        Criteria criteria=Criteria.where("userId").is(userId).andOperator(Criteria.where("source").is(source).andOperator(Criteria.where("date_time").gte(startDate).andOperator(Criteria.where("date_time").lte(endDate))));
         Query query=new Query(criteria);
         return template.find(query, Income.class);
     }
-
-    
-    
 }
