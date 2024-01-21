@@ -1,18 +1,12 @@
 package com.example.expensetracker.repository;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
-
-import javax.print.attribute.standard.MediaSize.ISO;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import com.example.expensetracker.model.Income;
-import com.example.expensetracker.model.User;
 
 public interface IncomeRepository extends MongoRepository<Income,String>{
     // List<Income> findByUserIdAndDateAndTimeBetween(User userId,LocalDateTime startDate,LocalDateTime endDate);]\

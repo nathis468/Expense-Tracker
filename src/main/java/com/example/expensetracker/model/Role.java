@@ -1,5 +1,5 @@
-// package com.example.expensetracker.model;
+package com.example.expensetracker.model;
 
-// public enum Role {
-//     user,financialadvisor,admin
-// }
+public enum Role {
+    USER,FINANCIALADVISOR,ADMIN
+}
