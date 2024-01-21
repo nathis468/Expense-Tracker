@@ -4,21 +4,19 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.expensetracker.model.Expense;
-import com.example.expensetracker.model.User;
 
 public interface ExpenseService {
     List<Expense> getAllExpenses();
-    void insertnewExpense(Expense newExpense);
-    String checkExpenseLimit();
-    BigDecimal getTotalExpense();
-    // List<Expense> getAllExpensesByCategory(User userId); 
-    // List<Expense> getAllExpensesByDateAndTime(User userId);
-    // List<Expense> getAllExpensesByGivenCategory(User userId,String category);
-    List<Expense> getAllAnualExpense(User userId,int year);
-    BigDecimal getAllAnualExpenseTotal(User userId, int year);
-    List<Expense> getParticularUsersParticularCategoryAnnualExpense(User userId,String category);
-    List<Expense> getParticularCategoryAnnualExpense(User userId,String category,int year);
-    BigDecimal getParticularCategoryAnnualExpenseTotal(User userId,String category,int year);
-    List<Expense> getParticularCategoryMontlyExpense(User userId,String category,int year,int month);
-    BigDecimal getParticularCategoryMontlyExpenseTotal(User userId,String category,int year,int month);
+    List<Expense> getExpenseByUserName(String userName);
+    Expense insertnewExpense(Expense newExpense);
+    Expense insertnewExpenseFromAccount(Expense newExpense);
+    // String checkExpenseLimit();
+    BigDecimal getTotalExpenseByUserName(String userName);
+    List<Expense> getAllAnualExpense(String userName,int year);
+    BigDecimal getAllAnualExpenseTotal(String userName, int year);
+    List<Expense> getParticularUsersParticularCategoryAnnualExpense(String userName,String category);
+    List<Expense> getParticularCategoryAnnualExpense(String userName,String category,int year);
+    BigDecimal getParticularCategoryAnnualExpenseTotal(String userName,String category,int year);
+    List<Expense> getParticularCategoryMontlyExpense(String userName,String category,int year,int month);
+    BigDecimal getParticularCategoryMontlyExpenseTotal(String userName,String category,int year,int month);
 }

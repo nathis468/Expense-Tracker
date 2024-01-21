@@ -1,4 +1,4 @@
-package com.example.expensetracker.filter;
+package com.example.expensetracker.security.filter;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.expensetracker.service.impl.JwtService;
+import com.example.expensetracker.security.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

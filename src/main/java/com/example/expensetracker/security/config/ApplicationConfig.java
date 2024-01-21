@@ -1,4 +1,6 @@
-package com.example.expensetracker.config;
+package com.example.expensetracker.security.config;
+
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.example.expensetracker.model.UserEntity;
 import com.example.expensetracker.repository.UserEntityRepository;
 import com.example.expensetracker.repository.UserRepository;
+import com.example.expensetracker.security.model.UserEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +33,9 @@ public class ApplicationConfig {
 
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return theUserEntityRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not Found"));
+                System.out.println("Application config username : "+username);
+                System.out.println("Application config whether username is present : "+theUserEntityRepository.findAll());
+                return theUserEntityRepository.findByUserName(username).orElseThrow(()-> new UsernameNotFoundException("User not Found"));
             }
             
         };

@@ -1,4 +1,4 @@
-package com.example.expensetracker.model;
+package com.example.expensetracker.security.model;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.example.expensetracker.model.Role;
 
 import lombok.Data;
 
@@ -30,7 +32,7 @@ public class UserEntity implements UserDetails{
     }
     @Override
     public String getUsername() {
-        return email;
+        return userName;
     }
     @Override
     public String getPassword() {

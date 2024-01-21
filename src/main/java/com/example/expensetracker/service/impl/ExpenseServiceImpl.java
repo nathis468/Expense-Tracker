@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +14,8 @@ import com.example.expensetracker.model.Account;
 import com.example.expensetracker.model.Expense;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.model.TransactionType;
-import com.example.expensetracker.model.User;
 import com.example.expensetracker.repository.AccountRepository;
 import com.example.expensetracker.repository.ExpenseRepository;
-import com.example.expensetracker.repository.UserRepository;
 import com.example.expensetracker.service.ExpenseService;
 
 @Service
@@ -30,9 +27,6 @@ public class ExpenseServiceImpl implements ExpenseService{
     private AccountRepository theAccountRepository;
 
     @Autowired
-    private UserRepository theUserRepository;
-
-    @Autowired
     private ExpenseDAO theExpenseDAO;
 
     @Override
@@ -40,54 +34,14 @@ public class ExpenseServiceImpl implements ExpenseService{
         return theExpenseRepository.findAll();
     }
 
-    // @Override
-    // public String insertnewExpense(Expense newExpense){
-    //     theExpenseRepository.save(newExpense);
-    //     return checkExpenseLimit();
-    // }
-
     @Override
-    public String checkExpenseLimit(){
-
-        BigDecimal budget=BigDecimal.valueOf(5000);
-        if(getTotalExpense().compareTo(budget)>0){
-            return "You have reached your budget";
-        }
-        return null;
+    public List<Expense> getExpenseByUserName(String userName){
+        return theExpenseRepository.findByUserName(userName);
     }
 
-    // @Override
-    // public BigDecimal getTotalExpense(){
-    //     List<Expense> list=theExpenseRepository.findAll();
-    //     BigDecimal totalExpense=BigDecimal.ZERO;
-    //     for(Expense expense:list){
-    //         totalExpense=totalExpense.add(expense.getAmount());
-    //     }
-    //     return totalExpense;
-    // }
-
-    // @Override
-    // public List<Expense> getAllExpensesByCategory(User userId) {
-    //     return theExpenseRepository.findByUserIdOrderByCategoryAsc(userId);
-    // }
-
-    // @Override
-    // public List<Expense> getAllExpensesByDateAndTime(User userId){
-    //     return theExpenseRepository.findByUserIdOrderByDateAndTimeDesc(userId);
-    // }
-
-    // @Override
-    // public List<Expense> getAllExpensesByGivenCategory(User userId,String category) {
-    //     return theExpenseRepository.findByUserIdAndCategoryOrderByDateAndTimeDesc(userId,category);
-    // }    
-
-
     @Override
-    public void insertnewExpense(Expense newExpense) {
-        String userId = newExpense.getUserId().getId().toString();
-        Optional<User> listuser = theUserRepository.findById(userId);
-        if(listuser == null) return;
-        String username=listuser.get().getUsername();
+    public Expense insertnewExpense(Expense newExpense) {
+        String username = newExpense.getUserName();
         
         Account accounts=theAccountRepository.findByAccountHolderName(username);
         
@@ -116,11 +70,18 @@ public class ExpenseServiceImpl implements ExpenseService{
 
             theAccountRepository.save(accounts);
             theExpenseRepository.save(expense);
+            return expense;
         }
+        return newExpense;
     }
 
     @Override
-    public BigDecimal getTotalExpense() {
+    public Expense insertnewExpenseFromAccount(Expense newExpense){
+        return theExpenseRepository.save(newExpense);
+    }
+
+    @Override
+    public BigDecimal getTotalExpenseByUserName(String userName) {
         List<Expense> list=theExpenseRepository.findAll();
         BigDecimal totalExpense=BigDecimal.ZERO;
         for(Expense expense:list){
@@ -130,17 +91,19 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
 
     @Override
-    public List<Expense> getAllAnualExpense(User userId, int year) {
+    public List<Expense> getAllAnualExpense(String userName, int year) {
         LocalDateTime startDate=LocalDateTime.of(year, 1, 1,0,0,10);
         LocalDateTime endDate=LocalDateTime.of(year, 12, 31,23,59,10);
-        return theExpenseDAO.findAnnualExpenseByUserId(userId,startDate,endDate);
+        // System.out.println(userName+" "+startDate+" "+endDate);
+        // System.out.println(theExpenseDAO.findAnnualExpenseByUserName(userName,startDate,endDate));
+        return theExpenseDAO.findAnnualExpenseByUserName(userName,startDate,endDate);
     }
 
     // yearly expense from all category - total
-    public BigDecimal getAllAnualExpenseTotal(User userId, int year) {
+    public BigDecimal getAllAnualExpenseTotal(String userName, int year) {
         LocalDateTime startDate=LocalDateTime.of(year, 1, 1,0,0,10);
         LocalDateTime endDate=LocalDateTime.of(year, 12, 31,23,59,10);
-        List<Expense> list=theExpenseDAO.findAnnualExpenseByUserId(userId,startDate,endDate);
+        List<Expense> list=theExpenseDAO.findAnnualExpenseByUserName(userName,startDate,endDate);
         BigDecimal totalExpense=BigDecimal.ZERO;
         for(Expense expense:list){
             totalExpense=totalExpense.add(expense.getAmount());
@@ -149,21 +112,21 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
 
     @Override
-    public List<Expense> getParticularUsersParticularCategoryAnnualExpense(User userId,String category){
-        return theExpenseDAO.findExpenseFromParticularCategory(userId,category);
+    public List<Expense> getParticularUsersParticularCategoryAnnualExpense(String userName,String category){
+        return theExpenseDAO.findExpenseFromParticularCategory(userName,category);
     }
 
     @Override
-    public List<Expense> getParticularCategoryAnnualExpense(User userId,String category,int year){
+    public List<Expense> getParticularCategoryAnnualExpense(String userName,String category,int year){
         LocalDateTime startDate=LocalDateTime.of(year, 1, 1,0,0,10);
         LocalDateTime endDate=LocalDateTime.of(year, 12, 31,23,59,10);
-        return theExpenseDAO.findByCategoryByDateAndTime(userId,category,startDate,endDate);
+        return theExpenseDAO.findByCategoryByDateAndTime(userName,category,startDate,endDate);
     }
 
     // Annual Expense statement from particular category  - total
     @Override
-    public BigDecimal getParticularCategoryAnnualExpenseTotal(User userId,String category,int year){
-        List<Expense> list=getParticularCategoryAnnualExpense(userId, category, year);
+    public BigDecimal getParticularCategoryAnnualExpenseTotal(String userName,String category,int year){
+        List<Expense> list=getParticularCategoryAnnualExpense(userName, category, year);
         BigDecimal totalExpense=BigDecimal.ZERO;
         for(Expense expense:list){
             totalExpense=totalExpense.add(expense.getAmount());
@@ -173,24 +136,22 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     // Montly Expense statement from particular category
     @Override
-    public List<Expense> getParticularCategoryMontlyExpense(User userId,String category,int year,int month){
+    public List<Expense> getParticularCategoryMontlyExpense(String userName,String category,int year,int month){
         LocalDate lastDayOfMonth = LocalDate.of(year, month, 1).plusMonths(1).minusDays(1);
         int dayOfMonth = lastDayOfMonth.getDayOfMonth();
         LocalDateTime startDate=LocalDateTime.of(year, month, 1,0,0,10);
         LocalDateTime endDate=LocalDateTime.of(year, month, dayOfMonth,23,59,10);
-        return theExpenseDAO.findByCategoryByDateAndTime(userId,category,startDate,endDate);
+        return theExpenseDAO.findByCategoryByDateAndTime(userName,category,startDate,endDate);
     }
 
     // Montly Expense statement from particular category - total
     @Override
-    public BigDecimal getParticularCategoryMontlyExpenseTotal(User userId,String category,int year,int month){
-        List<Expense> list=getParticularCategoryMontlyExpense(userId,category,year,month);
+    public BigDecimal getParticularCategoryMontlyExpenseTotal(String userName,String category,int year,int month){
+        List<Expense> list=getParticularCategoryMontlyExpense(userName,category,year,month);
         BigDecimal totalExpense=BigDecimal.ZERO;
         for(Expense expense:list){
             totalExpense=totalExpense.add(expense.getAmount());
         }
         return totalExpense;
     }
-
-
 }

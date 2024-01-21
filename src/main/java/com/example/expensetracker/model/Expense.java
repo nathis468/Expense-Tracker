@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.AllArgsConstructor;
@@ -18,11 +17,10 @@ import lombok.Data;
     @Id
     private String id;
 
-    @Field("user_id")
-    @DocumentReference(collection = "users")
-    private User userId;
+    @Field("user_name")
+    private String userName;
 
-    @Field("data_time")
+    @Field("date_time")
     private LocalDateTime dateAndTime;
     private String category;
     private BigDecimal amount;

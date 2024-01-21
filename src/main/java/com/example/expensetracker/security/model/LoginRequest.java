@@ -1,4 +1,4 @@
-package com.example.expensetracker.controller;
+package com.example.expensetracker.security.model;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 

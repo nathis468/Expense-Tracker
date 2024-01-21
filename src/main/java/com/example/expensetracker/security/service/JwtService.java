@@ -1,4 +1,4 @@
-package com.example.expensetracker.service.impl;
+package com.example.expensetracker.security.service;
 
 import java.security.Key;
 import java.util.Date;

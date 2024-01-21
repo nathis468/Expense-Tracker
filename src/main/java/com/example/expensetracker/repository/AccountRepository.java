@@ -9,7 +9,8 @@ import com.example.expensetracker.model.Account;
 
 @Repository
 public interface AccountRepository extends MongoRepository<Account,String>{
-
     Account findByAccountHolderName(String username);
-    
+    Account findByAccountNumberAndAccountHolderName(String accountNumber,String userName);
+    void deleteByAccountNumber(String accountNumber);
+    Account findByAccountNumber(String accountNumber);
 }

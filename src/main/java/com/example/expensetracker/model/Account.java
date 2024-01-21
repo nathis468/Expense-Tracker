@@ -1,7 +1,6 @@
 package com.example.expensetracker.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -25,6 +24,9 @@ public class Account {
 
     @Field("account_holder_name")
     private String accountHolderName;
+
+    // @Field("user_id")
+    // private String userId;
     
     @Field("account_type")
     private String accountType;

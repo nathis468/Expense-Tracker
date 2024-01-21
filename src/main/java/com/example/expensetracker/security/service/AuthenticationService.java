@@ -1,6 +1,7 @@
-package com.example.expensetracker.service.impl;
+package com.example.expensetracker.security.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,10 +9,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.expensetracker.controller.LoginRequest;
 import com.example.expensetracker.model.Role;
-import com.example.expensetracker.model.UserEntity;
 import com.example.expensetracker.repository.UserEntityRepository;
+import com.example.expensetracker.security.model.LoginRequest;
+import com.example.expensetracker.security.model.UserEntity;
 
 // import com.application.socialMedia.model.FollowRequest;
 // import com.application.socialMedia.model.Page;
@@ -50,9 +51,9 @@ public class AuthenticationService {
 
     public String authenticate(LoginRequest request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
-        UserEntity user = userRepo.findByEmail(request.getUserName());
+        System.out.println("Authentication service"+request.getUserName());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+        UserEntity user = userRepo.findByUserName(request.getUserName()).orElseThrow();
         String jwt = jwtService.generateToken(user);
         return jwt;
 
