@@ -25,9 +25,6 @@ public class Account {
     @Field("account_holder_name")
     private String accountHolderName;
 
-    // @Field("user_id")
-    // private String userId;
-    
     @Field("account_type")
     private String accountType;
 

@@ -1,15 +1,10 @@
 package com.example.expensetracker.security.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.expensetracker.model.Role;
 import com.example.expensetracker.repository.UserEntityRepository;
 import com.example.expensetracker.security.model.LoginRequest;
 import com.example.expensetracker.security.model.UserEntity;
@@ -42,7 +37,6 @@ public class AuthenticationService {
         if (userRepo.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
-       
         userRepo.save(user);
         String jwt = jwtService.generateToken(user);
         return jwt;
@@ -50,13 +44,10 @@ public class AuthenticationService {
 
 
     public String authenticate(LoginRequest request) {
-
-        System.out.println("Authentication service"+request.getUserName());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
         UserEntity user = userRepo.findByUserName(request.getUserName()).orElseThrow();
         String jwt = jwtService.generateToken(user);
         return jwt;
-
     }
 
 }

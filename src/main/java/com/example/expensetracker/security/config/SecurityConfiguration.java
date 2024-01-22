@@ -24,32 +24,20 @@ public class SecurityConfiguration {
 
     private final AuthenticationProvider authenticationProvider;
 
-    // private final LogoutHandler logoutHandler;
-
-    private String[] permitAllEndpointList = {"/api/auth/**","/logging"};
+    private String[] permitAllEndpointList = {"/api/auth/**"};
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-    {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http .csrf(csrf -> csrf.disable())
-                //the order of specifing the requestMatchers is important it always starts with the most specific one or decreasing order of specificity
-                //example: /api/auth/** should be specified before /api/** otherwise /api/auth/** will never be matched
-                //example: /brand/{*id} is permitted and /brand/select is not permitted that me it need to authicated so change the order of the requestMatchers is important
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(permitAllEndpointList)
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
+                .requestMatchers(permitAllEndpointList)
+                .permitAll()
+                .anyRequest()
+                .authenticated())
                 .sessionManagement(management -> management
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthfilter, UsernamePasswordAuthenticationFilter.class)
-                // .logout(logout -> logout
-                //     .logoutUrl("/api/auth/logout")
-                //     .addLogoutHandler(logoutHandler)
-                //     .logoutSuccessHandler((request,response,authentication)-> SecurityContextHolder.clearContext())     
-                // )
-            ;
-      return http.build();
+                .addFilterBefore(jwtAuthfilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 }

@@ -8,9 +8,9 @@ import com.example.expensetracker.model.Expense;
 import com.example.expensetracker.model.Income;
 import com.example.expensetracker.service.AccountService;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,40 +28,40 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/listaccount")
-    public List<Account> getListOfAccounts() {
-        return theAccountService.getAllAccount();
+    public ResponseEntity<?> getListOfAccounts() {
+        return new ResponseEntity<>(theAccountService.getAllAccount(),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listaccount/{accountNumber}/{userName}")
-    public Account getAccountByAccountNumberController(@PathVariable String accountNumber,@PathVariable String userName) {
-        return theAccountService.getByAccountNumberAndUserName(accountNumber,userName);
+    public ResponseEntity<?> getAccountByAccountNumberController(@PathVariable String accountNumber,@PathVariable String userName) {
+        return new ResponseEntity<>(theAccountService.getByAccountNumberAndUserName(accountNumber,userName),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/addaccount")
-    public Account insertNewAccountController(@RequestBody Account newAccount) {
-        return theAccountService.insertNewAccount(newAccount);
+    public ResponseEntity<?> insertNewAccountController(@RequestBody Account newAccount) {
+        return new ResponseEntity<>(theAccountService.insertNewAccount(newAccount),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/insertincome/{accountNumber}")
-    public Income insertNewIncomeController(@PathVariable("accountNumber") String accountNumber,@RequestBody Income newIncome){
+    public ResponseEntity<Income> insertNewIncomeController(@PathVariable("accountNumber") String accountNumber,@RequestBody Income newIncome){
         theAccountService.insertnewIncome(accountNumber,newIncome);
-        return newIncome;
+        return new ResponseEntity<>(newIncome,HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/insertexpense/{accountNumber}")
-    public Expense insertNewExpenseController(@PathVariable("accountNumber") String accountNumber,@RequestBody Expense newExpense){
+    public ResponseEntity<Expense> insertNewExpenseController(@PathVariable("accountNumber") String accountNumber,@RequestBody Expense newExpense){
         theAccountService.insertnewExpense(accountNumber,newExpense);
-        return newExpense;
+        return new ResponseEntity<>(newExpense,HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @DeleteMapping("/deleteaccount/{accountNumber}")
-    public String deleteAccountController(@PathVariable String accountNumber){
+    public ResponseEntity<String> deleteAccountController(@PathVariable String accountNumber){
         theAccountService.deleteAccount(accountNumber);
-        return "Deleted Account Successfully : "+accountNumber;
+        return new ResponseEntity<>("Deleted Account Successfully : "+accountNumber,HttpStatus.OK);
     }
 }

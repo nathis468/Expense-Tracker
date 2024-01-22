@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class JwtService {
-
     private static final String SECURITY_KEY = "C2380E01ED58E828F5DFB2EFDB45ECE23262E6217CE55500584DCE78862F97F3";
 
     public String extractUserName(String token) {
@@ -38,12 +37,12 @@ public class JwtService {
 
     public String generateToken(Map<String,Object> extraClaims,UserDetails userDetails){
         return Jwts.builder()
-                   .setClaims(extraClaims)
-                   .setSubject(userDetails.getUsername())
-                   .setIssuedAt(new Date(System.currentTimeMillis()))
-                   .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24))
-                   .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                   .compact();
+            .setClaims(extraClaims)
+            .setSubject(userDetails.getUsername())
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24))
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+            .compact();
     }
 
     public boolean isTokenvalid(String token , UserDetails userDetails)
@@ -73,5 +72,4 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECURITY_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
 }

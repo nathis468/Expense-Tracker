@@ -44,5 +44,4 @@ public class ExpenseDAO {
         Query query=new Query(criteria);
         return template.find(query, Expense.class);
     }
-
 }

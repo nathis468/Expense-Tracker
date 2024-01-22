@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,78 +26,78 @@ public class IncomeControlller {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/listall")
-    public List<Income> getAllIncomesController(){
-        return theIncomeService.getAllIncomes();
+    public ResponseEntity<List<Income>> getAllIncomesController(){
+        return new ResponseEntity<>(theIncomeService.getAllIncomes(),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listall/{userName}")
-    public List<Income> getAllIncomesByUserNameController(@PathVariable("userName") String userName){
-        return theIncomeService.getIncomeByUserName(userName);
+    public ResponseEntity<List<Income>> getAllIncomesByUserNameController(@PathVariable("userName") String userName){
+        return new ResponseEntity<>(theIncomeService.getIncomeByUserName(userName),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/insertincome")
-    public Income insertnewIncomeController(@RequestBody Income newIncome){
-        return theIncomeService.insertnewIncome(newIncome);
+    public ResponseEntity<Income> insertnewIncomeController(@RequestBody Income newIncome){
+        return new ResponseEntity<>(theIncomeService.insertnewIncome(newIncome),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listtotalincome/{userName}")
-    public String getTotalIncomeController(@PathVariable("userName") String userName){
+    public ResponseEntity<String> getTotalIncomeController(@PathVariable("userName") String userName){
         BigDecimal res=theIncomeService.getTotalIncomeByUserName(userName);
-        return "Total Income : "+res;
+        return new ResponseEntity<>("Total Income : "+res,HttpStatus.OK);
     }
 
     // yearly income from all sources
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listannualincome/{userName}/{year}")
-    public List<Income> getAnualIncomeController(@PathVariable String userName,@PathVariable int year){
-        return theIncomeService.getAllAnualIncome(userName,year);
+    public ResponseEntity<List<Income>> getAnualIncomeController(@PathVariable String userName,@PathVariable int year){
+        return new ResponseEntity<>(theIncomeService.getAllAnualIncome(userName,year),HttpStatus.OK);
     }
 
     // yearly income from all source - total
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FINANCIAL_ADVISOR')")
     @GetMapping("/listannualincometotal/{userName}/{year}")
-    public String getMethodName(@PathVariable String userName,@PathVariable int year) {
+    public ResponseEntity<String> getMethodName(@PathVariable String userName,@PathVariable int year) {
         BigDecimal res=theIncomeService.getAllAnualIncomeTotal(userName, year);
-        return "Total Income : "+res;
+        return new ResponseEntity<>("Total Income : "+res,HttpStatus.OK);
     }
 
     // all income from particular source
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listuserssourceincome/{userName}/{source}")
-    public List<Income> getMethodName(@PathVariable String userName, @PathVariable String source) {
-        return theIncomeService.getParticularUsersParticularSourceAnnualIncome(userName,source);
+    public ResponseEntity<List<Income>> getMethodName(@PathVariable String userName, @PathVariable String source) {
+        return new ResponseEntity<>(theIncomeService.getParticularUsersParticularSourceAnnualIncome(userName,source),HttpStatus.OK);
     }
     
     // Annual Income statement from particular source   
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listannualstatement/{userName}/{source}/{year}")
-    public List<Income> getAnnualIncomeStatementController(@PathVariable String userName,@PathVariable String source,@PathVariable int year) {
-        return theIncomeService.getParticularSourceAnnualIncome(userName,source,year);
+    public ResponseEntity<List<Income>> getAnnualIncomeStatementController(@PathVariable String userName,@PathVariable String source,@PathVariable int year) {
+        return new ResponseEntity<>(theIncomeService.getParticularSourceAnnualIncome(userName,source,year),HttpStatus.OK);
     }
 
     // Annual Income statement from particular source  - total
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FINANCIAL_ADVISOR')")
     @GetMapping("/listannualstatementtotal/{userName}/{source}/{year}")
-    public String getAnnualIncomeStatementTotalController(@PathVariable String userName,@PathVariable String source,@PathVariable int year) {
+    public ResponseEntity<String> getAnnualIncomeStatementTotalController(@PathVariable String userName,@PathVariable String source,@PathVariable int year) {
         BigDecimal totalIncome = theIncomeService.getParticularSourceAnnualIncomeTotal(userName,source,year);
-        return "Total Annual Income from "+source+" : "+totalIncome;
+        return new ResponseEntity<>("Total Annual Income from "+source+" : "+totalIncome,HttpStatus.OK);
     }
 
     // Montly Income statement from particular source
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/listmonthlystatement/{userName}/{source}/{year}/{month}")
-    public List<Income> getMonthlyIncomeController(@PathVariable String userName,@PathVariable String source,@PathVariable int year,@PathVariable int month) {
-        return theIncomeService.getParticularSourceMontlyIncome(userName,source, year, month);
+    public ResponseEntity<List<Income>> getMonthlyIncomeController(@PathVariable String userName,@PathVariable String source,@PathVariable int year,@PathVariable int month) {
+        return new ResponseEntity<>(theIncomeService.getParticularSourceMontlyIncome(userName,source, year, month),HttpStatus.OK);
     }    
 
     // Montly Income statement from particular source
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FINANCIAL_ADVISOR')")
     @GetMapping("/listmonthlystatementtotal/{userName}/{source}/{year}/{month}")
-    public String getMonthlyIncomeTotalController(@PathVariable String userName,@PathVariable String source,@PathVariable int year,@PathVariable int month) {
+    public ResponseEntity<String> getMonthlyIncomeTotalController(@PathVariable String userName,@PathVariable String source,@PathVariable int year,@PathVariable int month) {
         BigDecimal totalIncome = theIncomeService.getParticularSourceMontlyIncomeTotal(userName,source, year, month);
-        return "Total Montly("+month+") Income from "+source+" : "+totalIncome;
+        return new ResponseEntity<>("Total Montly("+month+") Income from "+source+" : "+totalIncome,HttpStatus.OK);
     } 
 }
