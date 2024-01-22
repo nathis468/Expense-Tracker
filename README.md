@@ -57,7 +57,7 @@ This Application helps an Individual user to manage daily based Expense, Income 
 
 <br>
 
-`endpoint` - "/account/deleteaccount/{accountNumber}"  <br>
+> `endpoint` - "/account/deleteaccount/{accountNumber}"  <br>
 `function` - delete an individual person's account  <br>
 `access` - ADMIN, USER  <br>
 
@@ -135,56 +135,66 @@ This Application helps an Individual user to manage daily based Expense, Income 
 
 ### Expense Module
 
-endpoint - "/expense/listall"
-function - to list all the expense
-access - ADMIN
+> `endpoint` - "/expense/listall"  <br>
+`function` - to list all the expense  <br>
+`access` - ADMIN  <br>
 
+<br>
 
-endpoint - "/expense/listall/{userName}"
-function - to list all expense of an individual person
-access - ADMIN, USER
+> `endpoint` - "/expense/listall/{userName}"  <br>
+`function` - to list all expense of an individual person  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/insertexpense"
-function - create a new record for expense
-access - ADMIN, USER
+> `endpoint` - "/expense/insertexpense"  <br>
+`function` - create a new record for expense  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/listtotalexpense/{userName}"
-function - to view a total expense for indivial user
-access - ADMIN, USER
+> `endpoint` - "/expense/listtotalexpense/{userName}"  <br>
+`function` - to view a total expense for indivial user  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/listannualexpense/{userName}/{year}"
-function - to view yearly statement from every category
-access - ADMIN, USER
+> `endpoint` - "/expense/listannualexpense/{userName}/{year}"  <br>
+`function` - to view yearly statement from every category  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/listannualexpensetotal/{userName}/{year}"
-function - to view total annual expense from every category
-access - ADMIN, USER, FINANCIAL ADVISOR
+> `endpoint` - "/expense/listannualexpensetotal/{userName}/{year}"  <br>
+`function` - to view total annual expense from every category  <br>
+`access` - ADMIN, USER, FINANCIAL ADVISOR  <br>
 
+<br>
 
-endpoint - "/expense/listuserssourceexpense/{userName}/{category}"
-function - to view total statement about particular category expense
-access - ADMIN, USER
+> `endpoint` - "/expense/listuserssourceexpense/{userName}/{category}"  <br>
+`function` - to view total statement about particular category expense  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/listannualstatement/{userName}/{category}/{year}"
-function - to view annual statement from particular category
-access - ADMIN, USER
+> `endpoint` - "/expense/listannualstatement/{userName}/{category}/{year}"  <br>
+`function` - to view annual statement from particular category  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/listannualstatementtotal/{userName}/{category}/{year}"
-function - to list total annual expense from particular category
-access -   ADMIN, USER, FINANCIAL ADVISOR
+> `endpoint` - "/expense/listannualstatementtotal/{userName}/{category}/{year}"  <br>
+`function` - to list total annual expense from particular category  <br>
+`access` -   ADMIN, USER, FINANCIAL ADVISOR  <br>
 
+<br>
 
-endpoint - "/expense/listmonthlystatement/{userName}/{category}/{year}/{month}"
-function - to view monthly statement from particular category
-access - ADMIN, USER
+> `endpoint` - "/expense/listmonthlystatement/{userName}/{category}/{year}/{month}"  <br>
+`function` - to view monthly statement from particular catey  <br>
+`access` - ADMIN, USER  <br>
 
+<br>
 
-endpoint - "/expense/listmonthlystatementtotal/{userName}/{category}/{year}/{month}"
-function - to list total montly expense from particular category
-access - ADMIN, USER, FINANCIAL ADVISOR
+> `endpoint` - "/expense/listmonthlystatementtotal/{userName}/{category}/{year}/{month}"  <br>
+`function` - to list total montly expense from particular category  <br>
+`access` - ADMIN, USER, FINANCIAL ADVISOR  <br>
