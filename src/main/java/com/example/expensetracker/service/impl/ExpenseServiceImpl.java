@@ -3,10 +3,13 @@ package com.example.expensetracker.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.VariableOperators.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.expensetracker.dao.ExpenseDAO;
@@ -151,5 +154,31 @@ public class ExpenseServiceImpl implements ExpenseService{
             totalExpense=totalExpense.add(expense.getAmount());
         }
         return totalExpense;
+    }
+
+    // 
+    @Override
+    public HashMap<String,BigDecimal> getIndividualExpense(String userName,String date){
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDateTime starTime = LocalDate.parse(date, formatter1).atStartOfDay();
+        System.out.println("startdate"+starTime);
+        LocalDateTime endTime = LocalDate.parse(date, formatter2).atTime(23, 59, 59);
+
+        System.out.println("enddate"+endTime);
+        List<Expense> list1 = new ArrayList<Expense>(theExpenseDAO.findIndividualExpenseByUserName(userName,starTime,endTime));
+        HashMap<String, BigDecimal> resultMap = new HashMap<String, BigDecimal>();
+        BigDecimal totalAmount = new BigDecimal(0);
+        for (Expense expense : list1) {
+            if(resultMap.containsKey(expense.getCategory()) == true){
+                resultMap.put(expense.getCategory(),resultMap.get(expense.getCategory()+expense.getAmount()));
+            }
+            else{
+                resultMap.put(expense.getCategory(), expense.getAmount());
+            }
+            totalAmount = totalAmount.add(expense.getAmount());
+        }
+        resultMap.put("Total Expense Spend : ",totalAmount);
+        return resultMap;
     }
 }

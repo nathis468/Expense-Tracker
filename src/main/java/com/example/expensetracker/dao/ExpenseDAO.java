@@ -1,5 +1,6 @@
 package com.example.expensetracker.dao;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,6 +42,13 @@ public class ExpenseDAO {
     // Montly  Expense statement from particular category
     public List<Expense> findByCategoryByDateAndTime(String userName,String category,LocalDateTime startDate,LocalDateTime endDate){
         Criteria criteria=Criteria.where("user_name").is(userName).andOperator(Criteria.where("category").is(category).andOperator(Criteria.where("date_time").gte(startDate).andOperator(Criteria.where("date_time").lte(endDate))));
+        Query query=new Query(criteria);
+        return template.find(query, Expense.class);
+    }
+
+    // 
+    public List<Expense> findIndividualExpenseByUserName(String userName,LocalDateTime starTime,LocalDateTime enDateTime){
+        Criteria criteria=Criteria.where("user_name").is(userName).andOperator(Criteria.where("date_time").gte(starTime).andOperator(Criteria.where("date_time").lte(enDateTime)));
         Query query=new Query(criteria);
         return template.find(query, Expense.class);
     }

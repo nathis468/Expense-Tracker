@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.expensetracker.service.ExpenseService;
+
+import jakarta.websocket.server.PathParam;
+
 import com.example.expensetracker.model.Expense;
 
 
@@ -102,4 +105,10 @@ public class ExpenseController {
         return new ResponseEntity<>("Total Montly("+month+") Expense from "+category+" : "+totalExpense,HttpStatus.OK);
     } 
 
+    // return total statement for montly expense    -   individual category expense & overall expense
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FINANCIAL_ADVISOR')")
+    @GetMapping("/listindividualstatementtotal/{userName}")
+    public ResponseEntity<?> getMonthlyExpenseIndividualTotalController(@PathVariable String userName,@PathParam(value = "date") String date) {
+        return new ResponseEntity<>(theExpenseService.getIndividualExpense(userName,date),HttpStatus.OK);   
+    }
 }
