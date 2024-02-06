@@ -94,8 +94,6 @@ public class ExpenseServiceImpl implements ExpenseService{
     public List<Expense> getAllAnualExpense(String userName, int year) {
         LocalDateTime startDate=LocalDateTime.of(year, 1, 1,0,0,10);
         LocalDateTime endDate=LocalDateTime.of(year, 12, 31,23,59,10);
-        // System.out.println(userName+" "+startDate+" "+endDate);
-        // System.out.println(theExpenseDAO.findAnnualExpenseByUserName(userName,startDate,endDate));
         return theExpenseDAO.findAnnualExpenseByUserName(userName,startDate,endDate);
     }
 

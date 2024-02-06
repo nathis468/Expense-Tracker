@@ -10,7 +10,6 @@ public interface ExpenseService {
     List<Expense> getExpenseByUserName(String userName);
     Expense insertnewExpense(Expense newExpense);
     Expense insertnewExpenseFromAccount(Expense newExpense);
-    // String checkExpenseLimit();
     BigDecimal getTotalExpenseByUserName(String userName);
     List<Expense> getAllAnualExpense(String userName,int year);
     BigDecimal getAllAnualExpenseTotal(String userName, int year);
