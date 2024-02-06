@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Application helps an Individual user to manage daily based Expense, Income and Account Balance. After records your Financial you can view an Report / Transaction statement for Monthly basis and as well as the Yearly basis. It will helps to let you know your daily Financial status. It allow 3 different role of users such as INDIVIDUAL USER, ADMIN and FINANCIAL ADVISOR
+This Application helps an Individual user to manage daily based Expense, Income and Account Balance. After records your Financial status you can view an Report / Transaction statement for Monthly basis and as well as the Yearly basis. It will helps to let you know your daily Financial status. Here 3 different roles of person can access the Application such as `Individual user, Admin and Financial Advisor`
 
 <br>
 <br>
